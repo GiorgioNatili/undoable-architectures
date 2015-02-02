@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title></title>
+    <meta name="description" content="">
+  </head>
+  <body ng-app="addUserWidget">
+   
+    <div id="addUser" ng-controller="AddUserCtrl">
+      <fieldset>
+        <input id="inputUserName" type="text" placeholder="Username">
+        <input id="inputUserEmail" type="text" placeholder="Email">
+        <br>
+        <input id="inputUserFullname" type="text" placeholder="Full Name">
+        <input id="inputUserAge" type="text" placeholder="Age">
+        <br>
+        <input id="inputUserLocation" type="text" placeholder="Location">
+        <input id="inputUserGender" type="text" placeholder="gender">
+        <br>
+        <button id="btnAddUser">Add User</button>
+      </fieldset>
+    </div>
+
+	<!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/component.js"></script>
+    <script src="scripts/adduser/adduserCtrl.js"></script>
+    <!-- endbuild -->
+
+  </body>
+</html>

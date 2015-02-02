@@ -1,0 +1,25 @@
+{
+  "name": "user-info",
+  "version": "0.0.1",
+  "description": "User info badge",
+  "main": "index.html",
+  "keywords": [
+    "user",
+    "profile"
+  ],
+  "authors": [
+    "Giorgio Natili"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ember": "~1.9.1"
+  }
+}
