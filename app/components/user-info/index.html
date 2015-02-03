@@ -9,16 +9,42 @@
   	<!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/handlebars/handlebars.js"></script>
     <script src="bower_components/handlebars/handlebars.runtime.js"></script>
     <script src="bower_components/ember/ember.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="templates/application.hbs"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/components/user_info_component.js"></script>
+    <script src="scripts/component.js"></script>
     <!-- endbuild -->
+
+    <script type="text/x-handlebars">
+      <h2> User Info</h2>
+      {{outlet}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="index">
+      {{user-details}}
+    </script>
+    
+    <script type="text/x-handlebars" data-template-name="components/user-details">
+      <p>
+        <strong>Name:</strong>
+        <span id="userInfoName">user name</span>
+        <br>
+        <strong>Age:</strong>
+        <span id="userInfoAge">user age</span>
+        <br>
+        <strong>Gender:</strong>
+        <span id="userInfoGender">user gender</span>
+        <br>
+        <strong>Location:</strong>
+        <span id="userInfoLocation">user location</span>
+      </p>
+    </script>
+
+
 
   </body>
 </html>
