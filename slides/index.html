@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Undoable Architectures</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Too many the times the front-end architectures of JS based apps are driven by the libraries selected in early the stage of a project rather than by best practices. Almost all the MVW frameworks offer a way to create reusable components and/or addons, during this talk we are going to see how to define a front-end architecture based upon pluggable modules using a framework-agnostic approach that will let you undo any framework decision that you make in later stages of a project with less pain.">
+    <meta name="generator" content="SlideCaptain">
+    <meta name="keywords" content="javascript,architecture,emberjs,angularjs,backbonejs">
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <base href="" target="_blank">
+
+    <link rel="stylesheet" href="ajax/libs/highlight.js/8.0/styles/tomorrow.min.css">
+<link rel="stylesheet" href="ajax/libs/animate.css/3.1.0/animate.min.css">
+<link rel="stylesheet" href="ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="bower_components/Flowtime.js/css/flowtime.css">
+<link rel="stylesheet" href="styles/themes/less/sc-theme.css">
+
+    <meta property="og:title" content="Undoable Architectures">
+    <meta property="og:description" content="Too many the times the front-end architectures of JS based apps are driven by the libraries selected in early the stage of a project rather than by best practices. Almost all the MVW frameworks offer a way to create reusable components and/or addons, during this talk we are going to see how to define a front-end architecture based upon pluggable modules using a framework-agnostic approach that will let you undo any framework decision that you make in later stages of a project with less pain.">
+    <meta property="og:url" content="https://www.slidecaptain.com/flows/undefined">
+</head>
+<body class="sc-theme-font-7 sc-theme-color-8">
+<article class="flowtime no-transition">
+    
+    <section class="ft-section" data-title="Intro" data-id="intro">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/3ujOct78S3W9x5K29bhA_122H.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><h1 style="text-align: left; font-family: &apos;Open Sans&apos;;"><span style="background-color: rgb(245, 245, 245);">Undoable&#xA0;Architectures</span></h1></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">About Me</h1>
+                    
+                    <div><ul><li>Technical Leader and Agile Coach</li><li>Front-end Developer (test first!)</li><li>Mobile Developer (Hybrid with Cordova, iOS, Android)</li><li>Technology Enthusiast</li><li>Mentor @ Airpair.com</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h3 style="font-family: &apos;Open Sans&apos;; text-align: center;">What&apos;s Next?</h3>
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;">Scotch Streaming and Scaling</h1>
+                    
+                    <h3 style="font-family: &apos;Open Sans&apos;; text-align: center;">11 Feb 2015</h3>
+                    
+                    <h1 style="text-align: center;"><div style="font-size: 28px;"><a href="http://www.meetup.com/mobiletea">www.meetup.com/mobiletea</a></div></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Agenda</h1>
+                    
+                    <div><ul><li>Monolithic applications</li><li>Identify modules and/or components</li><li>RESTful and Hypermedia models</li><li>Distributing modules in your organization</li><li>Modules communication strategies&#xA0;</li><li>Demo</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Monolithic applications" data-id="monolithic-applications">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/F2RtPcbRXGsc4mdzM4YO_Details-Structure.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><h1 style="text-align: left; font-family: &apos;Open Sans&apos;;"><span style="background-color: rgb(248, 248, 255);">&#xA0;Monolithic&#xA0;Applications<br></span></h1></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Enterprise Applications</h1>
+                    
+                    <div><ul><li>Existing code base and legacy code</li><li>Short time to market</li><li>Prototype based</li><li>Lack of planning and strategy</li><li>Adapting to marketing needs</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Medium Size Applications</h1>
+                    
+                    <div><ul><li>Unexpected success&#xA0;</li><li>Budget constraints&#xA0;&#xA0;</li><li>Missing expertise&#xA0;&#xA0;</li><li>Lack of planning and strategy</li><li>Adapting to customer needs&#xA0;</li><li>Driven by the &quot;last kid on the block&quot; decision strategy&#xA0;</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">What&apos;s in Common?</h1>
+                    
+                    <div>Lack of design iterations and separation of concerns</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><iframe src="http://giphy.com/embed/RkSBVXwrISiPK" width="960" height="586" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen class="ng-scope" style="font-size: 1.75rem; width: 60rem; height: 36.625rem; max-width: 95%; max-height: 95%;"></iframe><br></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Major Problems</h1>
+                    
+                    <div><ul><li>Maintainability&#xA0;</li><li>Scalability</li><li>High learning curve</li><li>Difficult setups</li><li>Complex release procedures</li><li>Difficult to test</li><li>Etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Possible Solutions</h1>
+                    
+                    <div><ul><li>Refactoring&#xA0;</li><li>Documenting</li><li>Decoupling&#xA0;</li><li>Etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">No Escape</h1>
+                    
+                    <div><iframe src="http://giphy.com/embed/39YYnMFLFhodi" width="960" height="540" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 60rem; height: 33.75rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Modules and Components" data-id="modules-and-components">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/73StsCsDSrSkef7rRZA7_816-dismantled-clock-radio-components-1920x1080-photography-wallpaper.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><span style="font-size: 6rem; background-color: rgb(248, 248, 255);">Modules and Components</span><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Modules</h1>
+                    
+                    <div><i>An application module is a class that represents a business application task. (Oracle)</i><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Components</h1>
+                    
+                    <div><div><i>A component is a reusable program building block that can be combined with other components.</i></div></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">That&apos;s Good!</h1>
+                    
+                    <div><iframe src="http://giphy.com/embed/12ZDIx1Mw1cXVm" width="960" height="540" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 60rem; height: 33.75rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Identify Them Starting from Your Requirements</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Small and Decoupled</h1>
+                    
+                    <div><ul><li>Identify small and decoupled parts of your application</li><li>Try to understand&#xA0;which are reusable across several apps</li><li>Iterate across your modules and/or components list before implementing a new feature</li><li>Pick-up the right toolset to implement a specific set of features</li><li>Never reinvent the wheel!</li><li>Share your modules/components&#xA0;with the community (your enterprise or the open source one)<br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Distributing modules" data-id="distributing-modules">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/RxpWdE6BRBeSRuRWiR7n_amazon-s-massive-distribution-network-kicks-into-holiday-gear-0b90e4a921.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><span style="font-size: 6rem; background-color: rgb(248, 248, 255);">Distributing modules</span><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Distribution Requirements</h1>
+                    
+                    <div><ul><li>A module/component should be easy to install</li><li>Dependencies should be easy to manage</li><li>The features of every module/component should be very clear</li><li>All the releases of a&#xA0;module/component should be always&#xA0;available (eventually dismiss&#xA0;the support)</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-4 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Possible Solutions</h1>
+                    
+                </div>
+                
+                <div class="sc-box box1">
+                    
+                    <div><div sc-embedded="" class="sc-draggable ng-scope ng-isolate-scope" data-embedded="{&quot;filename&quot;:&quot;bower-logo.png&quot;,&quot;original&quot;:{&quot;container&quot;:&quot;filepicker.slidecaptain&quot;,&quot;filename&quot;:&quot;bower-logo.png&quot;,&quot;isWriteable&quot;:true,&quot;key&quot;:&quot;my-images/21j0AaEeShq4LVIFabJr_bower-logo.png&quot;,&quot;mimetype&quot;:&quot;image/png&quot;,&quot;size&quot;:19261,&quot;url&quot;:&quot;https://www.filepicker.io/api/file/RGdITLxSjMvyHqnSKAdQ&quot;},&quot;presid&quot;:&quot;-JhLAz5uGGZMEj9zG_Kp&quot;,&quot;thumb&quot;:{&quot;container&quot;:&quot;filepicker.slidecaptain&quot;,&quot;filename&quot;:&quot;bower-logo.png&quot;,&quot;isWriteable&quot;:false,&quot;key&quot;:&quot;my-images/Ra35L47RbsyriDWWYLwQ_bower-logo.png&quot;,&quot;mimetype&quot;:&quot;image/png&quot;,&quot;size&quot;:6673,&quot;url&quot;:&quot;https://www.filepicker.io/api/file/mkLjKAzJTwWNoHaDqkeQ&quot;},&quot;thumbnail_width&quot;:1024,&quot;thumbnail_height&quot;:900,&quot;thumbnail_url&quot;:&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/21j0AaEeShq4LVIFabJr_bower-logo.png&quot;}" contenteditable="false" title="" draggable="true" data-size="80" data-opacity="100" data-float="false" data-alignment="center top" data-link="" style="margin: 0.5rem auto; width: 33.7rem; height: 29.619140625rem; opacity: 1;"><div sc-embedded-thumbnail="" data-img="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/21j0AaEeShq4LVIFabJr_bower-logo.png" ng-click="showOptions()" class="ng-scope ng-isolate-scope"><img class="sc-embedded-thumbnail" ng-src="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/21j0AaEeShq4LVIFabJr_bower-logo.png" src="filepicker.slidecaptain/my-images/21j0AaEeShq4LVIFabJr_bower-logo.png"></div></div><br></div>
+                    
+                </div>
+                
+                <div class="sc-box box2">
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><div sc-embedded="" class="sc-draggable ng-scope ng-isolate-scope" data-embedded="{&quot;filename&quot;:&quot;npm-logo.png&quot;,&quot;original&quot;:{&quot;container&quot;:&quot;filepicker.slidecaptain&quot;,&quot;filename&quot;:&quot;npm-logo.png&quot;,&quot;isWriteable&quot;:true,&quot;key&quot;:&quot;my-images/07F3Hk8VSW3APjSA2Ojv_npm-logo.png&quot;,&quot;mimetype&quot;:&quot;image/png&quot;,&quot;size&quot;:1708,&quot;url&quot;:&quot;https://www.filepicker.io/api/file/sBxPWsQNTRmZDQ3tLq7Q&quot;},&quot;presid&quot;:&quot;-JhLAz5uGGZMEj9zG_Kp&quot;,&quot;thumb&quot;:{&quot;container&quot;:&quot;filepicker.slidecaptain&quot;,&quot;filename&quot;:&quot;npm-logo.png&quot;,&quot;isWriteable&quot;:false,&quot;key&quot;:&quot;my-images/1PohZsIhRr6CUVb3GMJz_npm-logo.png&quot;,&quot;mimetype&quot;:&quot;image/png&quot;,&quot;size&quot;:836,&quot;url&quot;:&quot;https://www.filepicker.io/api/file/3PTS9v3uRmWmws3ShJaU&quot;},&quot;thumbnail_width&quot;:518,&quot;thumbnail_height&quot;:202,&quot;thumbnail_url&quot;:&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/07F3Hk8VSW3APjSA2Ojv_npm-logo.png&quot;}" contenteditable="false" title="" draggable="true" data-size="100" data-opacity="100" data-float="false" data-alignment="center top" data-link="" style="margin: 0.5rem auto; width: 32.375rem; height: 12.625rem; opacity: 1;"><div sc-embedded-thumbnail="" data-img="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/07F3Hk8VSW3APjSA2Ojv_npm-logo.png" ng-click="showOptions()" class="ng-scope ng-isolate-scope"><img class="sc-embedded-thumbnail" ng-src="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/07F3Hk8VSW3APjSA2Ojv_npm-logo.png" src="filepicker.slidecaptain/my-images/07F3Hk8VSW3APjSA2Ojv_npm-logo.png"></div></div><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">What&apos;s About my Privacy?</h1>
+                    
+                    <div><iframe src="http://giphy.com/embed/11w04LB6klGtcA" width="480" height="370" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 30rem; height: 23.125rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div>
+                    
+                    <div><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Bower</h1>
+                    
+                    <div>Use a private git repository on github.com or create your own git server (strongly discouraged!)</div>
+                    
+                    <div><br></div>
+                    
+                    <div><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-json">{
+  <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;my-amazing-component&quot;</span>,
+  <span class="hljs-string">&quot;version&quot;</span>: <span class="hljs-string">&quot;1.0.0&quot;</span>,
+  <span class="hljs-string">&quot;ignore&quot;</span>: [
+    <span class="hljs-string">&quot;**/.*&quot;</span>,
+    <span class="hljs-string">&quot;node_modules&quot;</span>,
+    <span class="hljs-string">&quot;bower_components&quot;</span>,
+    <span class="hljs-string">&quot;test&quot;</span>,
+    <span class="hljs-string">&quot;tests&quot;</span>
+  ],
+  <span class="hljs-string">&quot;dependencies&quot;</span>: {
+    <span class="hljs-string">&quot;my-bower-component&quot;</span>: <span class="hljs-string">&quot;~1.33.7&#x201D;,
+    &quot;</span>semicolon.js<span class="hljs-string">&quot;: &quot;</span>https:<span class="hljs-comment">//github.com/username/component-name.git&quot;</span>
+  }
+}</code></pre><br></div>
+                    
+                    <div><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">NPM</h1>
+                    
+                    <div>Try the <a href="https://www.npmjs.com/enterprise">npmjs.com enterprise</a> service or create your private npm server using <a href="https://www.npmjs.com/package/sinopia">Sinopia</a>&#xA0;to create private packages</div>
+                    
+                    <div><br></div>
+                    
+                    <div><div sc-embedded="" class="sc-draggable ng-scope ng-isolate-scope" data-embedded="{&quot;filename&quot;:&quot;680177b2-6a1d-11e3-82e1-02193aa4e32e.png&quot;,&quot;original&quot;:{&quot;container&quot;:&quot;filepicker.slidecaptain&quot;,&quot;filename&quot;:&quot;680177b2-6a1d-11e3-82e1-02193aa4e32e.png&quot;,&quot;isWriteable&quot;:true,&quot;key&quot;:&quot;my-images/STrV1KqASdeFbIDUslan_680177b2-6a1d-11e3-82e1-02193aa4e32e.png&quot;,&quot;mimetype&quot;:&quot;image/png&quot;,&quot;size&quot;:89144,&quot;url&quot;:&quot;https://www.filepicker.io/api/file/cgnpzvGQWSafylMkRV1n&quot;},&quot;presid&quot;:&quot;-JhLAz5uGGZMEj9zG_Kp&quot;,&quot;thumbnail_width&quot;:498,&quot;thumbnail_height&quot;:258,&quot;thumbnail_url&quot;:&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/STrV1KqASdeFbIDUslan_680177b2-6a1d-11e3-82e1-02193aa4e32e.png&quot;}" contenteditable="false" title="" draggable="true" data-size="100" data-opacity="100" data-float="false" data-alignment="center top" data-link="" style="margin: 0.5rem auto; width: 31.125rem; height: 16.125rem; opacity: 1;"><div sc-embedded-thumbnail="" data-img="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/STrV1KqASdeFbIDUslan_680177b2-6a1d-11e3-82e1-02193aa4e32e.png" ng-click="showOptions()" class="ng-scope ng-isolate-scope"><img class="sc-embedded-thumbnail" ng-src="https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/STrV1KqASdeFbIDUslan_680177b2-6a1d-11e3-82e1-02193aa4e32e.png" src="filepicker.slidecaptain/my-images/STrV1KqASdeFbIDUslan_680177b2-6a1d-11e3-82e1-02193aa4e32e.png"></div></div><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Using NPM</h1>
+                    
+                    <div>You can then use npm as usual but everything will live into your private repo, the only difference is that you set a different registry (actually you can switch between them)</div>
+                    
+                    <div><br></div>
+                    
+                    <div><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 19.8125rem;"><code ng-non-bindable="" class="language-sh">$ <span class="hljs-built_in">npm</span> set registry <span class="hljs-attribute">http</span>:<span class="hljs-regexp">//</span><span class="hljs-attribute">your_external_ip</span>:<span class="hljs-number">4873</span>
+$ <span class="hljs-built_in">npm</span> adduser
+$ <span class="hljs-built_in">npm</span> publish
+</code></pre><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Results</h1>
+                    
+                    <div><ul><li>You can install and uninstall components easily</li><li>The dependencies management process is automated (kinda!)</li><li>Every component/module can be unplugged from your application and changed&#xA0;</li><li>The source code is better organized (components should work also stand alone)</li><li>Etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">What&apos;s Missing?</h1>
+                    
+                    <div><br></div>
+                    
+                    <div>The model...</div>
+                    
+                    <div><br></div>
+                    
+                    <div><iframe src="http://giphy.com/embed/etxe4Xn8jiJXy" width="480" height="269" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 30rem; height: 16.8125rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Hypermedia Models" data-id="hypermedia-models">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/lgjKjML1SYWHGIzcfRz1_darzacq_hyper05.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><h1 style="text-align: left; font-family: &apos;Open Sans&apos;;"><span style="background-color: rgb(248, 248, 255);">Hypermedia Models&#xA0;</span></h1></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Abstract the Model</h1>
+                    
+                    <div><ul><li>Keep always the model independent from your client side architecture</li><li>JSON or XML are valid formats to distribute the data</li><li>Use data adapters (Backbone, Ember Data, etc.) to deal with the model in your client side code</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Enrich the Model</h1>
+                    
+                    <div><ul><li>Don&apos;t deliver just data but also business logic information like related links<br></li><li>Use the flexibility of JSON or XML to provide a structure to your models&#xA0;<br><br><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-json">{
+  &quot;<span class="hljs-attribute">href</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;http://example.com/api/v1/users/john&quot;</span></span>,
+  &quot;<span class="hljs-attribute">type</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;user&quot;</span></span>,
+  &quot;<span class="hljs-attribute">head</span>&quot;: <span class="hljs-value">{
+    &quot;<span class="hljs-attribute">allow</span>&quot;: <span class="hljs-value">[<span class="hljs-string">&quot;GET&quot;</span>,<span class="hljs-string">&quot;PUT&quot;</span>,<span class="hljs-string">&quot;PATCH&quot;</span>,<span class="hljs-string">&quot;DELETE&quot;</span>]</span>,
+    &quot;<span class="hljs-attribute">related</span>&quot;: <span class="hljs-value">{
+      &quot;<span class="hljs-attribute">meetings</span>&quot;: <span class="hljs-value">{
+        &quot;<span class="hljs-attribute">href</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;http://example.com/api/v1/users/john/meetings&quot;</span>
+      </span>}
+    </span>}
+  </span>}</span>,
+  &quot;<span class="hljs-attribute">body</span>&quot;: <span class="hljs-value">{
+    &quot;<span class="hljs-attribute">display_name</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;John Doe&quot;</span></span>,
+    &quot;<span class="hljs-attribute">phone_number</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;123456789&quot;</span></span>,
+    &quot;<span class="hljs-attribute">email</span>&quot;: <span class="hljs-value"><span class="hljs-string">&quot;john@example.com&quot;</span></span>,
+  }
+</span>}</code></pre><br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Deliver Your Rules</h1>
+                    
+                    <div><ul><li>Use the model to explicitly set the rules to follow to post/put/delete/ information to your system</li><li>Deliver form validation rules&#xA0;(e.g regexp) to avoid to re-build the client if something change</li><li>Provide live update information (e.g. web sockets) to update your application</li><li>Etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Always Avoid</h1>
+                    
+                    <div>To define a model that fits the needs of a specific client side library, it&apos;s a path that is very hard to undo</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Communication Strategies" data-id="communication-strategies">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/my-images/puGfDvvgQJaOg0aIBsR9_social-media-communications-strategy-1.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">&#xA0;</h1>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><h1 style="text-align: left; font-family: &apos;Open Sans&apos;;"><span style="background-color: rgb(248, 248, 255);">Put Everything Together</span></h1></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Recommendations&#xA0;</h1>
+                    
+                    <div><ul><li>Try to don&apos;t depend only on a single client side library</li><li>Don&apos;t be too lazy, JavaScript can&#xA0;handle natively&#xA0;the tasks performed by external libriaries</li><li>Keep the communication as simple as possible</li><li>Write clean and testable code</li><li>Etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Components Scope</h1>
+                    
+                    <div><ul><li>Use web components CSS scoping if your concern is the look and feel of components/module</li><li>Use an iFrame to enclose your component in a sandbox</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Demo</h1>
+                    
+                    <div><a href="https://github.com/GiorgioNatili/undoable-architectures">https://github.com/GiorgioNatili/undoable-architectures</a><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Resources" data-id="resources">
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Resources</h1>
+                    
+                    <div><ul><li><a href="http://almostobsolete.net/talks/hypermedia">http://almostobsolete.net/talks/hypermedia</a></li><li><a href="http://almostobsolete.net/talks/hypermedia">http://liquidmedia.org/blog/2011/01/backbone-js-part-1</a><br></li><li><a href="http://madhatted.com/2013/3/19/suggested-rest-api-practices">http://madhatted.com/2013/3/19/suggested-rest-api-practices</a><br></li><li><a href="http://emberjs.com/guides/models/the-rest-adapter/">http://emberjs.com/guides/models/the-rest-adapter</a><br></li><li><a href="http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/">http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb</a><br></li><li><a href="https://oncletom.io/2013/live-development-bower-component/">https://oncletom.io/2013/live-development-bower-component</a><br></li><li><a href="http://tech.pro/tutorial/1308/emberjs-views-and-live-templates-with-handlebarsjs-part-1">http://tech.pro/tutorial/1308/emberjs-views-and-live-templates-with-handlebarsjs-part-1</a><br></li><li><a href="https://github.com/jkneb/ember-crud">https://github.com/jkneb/ember-crud</a><br></li><li><a href="http://www.stevesouders.com/blog/2013/12/02/html-imports-scope-security-and-suggestions/">http://www.stevesouders.com/blog/2013/12/02/html-imports-scope-security-and-suggestions</a><br></li><li><a href="http://tech.pro/tutorial/1249/modern-emberjs-application-workflow-with-yeoman-and-mocha">http://tech.pro/tutorial/1249/modern-emberjs-application-workflow-with-yeoman-and-mocha</a><br></li><li><a href="https://github.com/pkozlowski-opensource/angularjs-mongolab">https://github.com/pkozlowski-opensource/angularjs-mongolab</a><br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;">@giorgionatili<br></h1>
+                    
+                    <h1 style="text-align: center;"><div style="font-size: 28px;">#mobiletea #javascript #swift #wearable #agile #android #tdd</div></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Thanks!</h1>
+                    
+                    <div><div style="font-size: 28px; text-align: center;">Grazie! Gra&#xE7;ias! Danke! Merci! &#x8C22;&#x8C22;!&#xA0;<br></div></div>
+                    
+                    <div><br></div>
+                    
+                    <div><iframe src="http://giphy.com/embed/HJ8NsNtn9VswE" width="960" height="408" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 60rem; height: 25.5rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+</article>
+
+<script src="ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="ajax/libs/screenfull.js/1.0.4/screenfull.min.js"></script>
+<script src="ajax/libs/leapjs/0.6.0/leap.min.js"></script>
+<script src="ajax/libs/mathjax/2.3/MathJax.js?config=TeX-AMS_HTML.js"></script>
+<script src="ajax/libs/less.js/1.7.1/less.min.js"></script>
+<script src="ajax/libs/velocity/0.2.1/jquery.velocity.min.js"></script>
+<script src="ajax/libs/velocity/0.2.1/velocity.ui.min.js"></script>
+<script src="bower_components/Flowtime.js/js/flowtime.min.js"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            scale: 75
+        }
+    });
+</script>
+<script type="text/javascript">
+    /**
+     * Calculates the scale based on the actual screen width
+     */
+    function calculateScale() {
+        var html, h, w, scale;
+        html = $('html');
+        h = $(window).height();
+        w = $(window).width();
+        scale = Math.round(w / 1440 * 100);
+        html.css({
+            'font-size': scale + '%'
+        });
+    }
+
+    /**
+     * Starts the Flowtime presentation
+     * @param {Boolean} progress - show the default progress when in page mode
+     * @param {Boolean} autoplay - status of the autoplay feature
+     * @param {Number} delay - the time between the page navigation in milliseconds
+     * @param {Boolean} loop - loop the navigation
+     * @param{Boolean} fullscreen - show fullscreen
+     */
+    function startPresentation(progress, autoplay, delay, loop, fullscreen) {
+        // configure application
+        Flowtime.showProgress(progress);
+        Flowtime.autoplay(autoplay, delay);
+        Flowtime.loop(loop);
+        Flowtime.useOverviewVariant(true);
+        // starts the application with configuration options
+        Flowtime.start();
+        /**
+         * Handle navigation events
+         */
+        Flowtime.onNavigation(function (ev) {
+            var target, animation, clazzes;
+            // animation
+            if (ev.fragmentIndex === -1) {
+                target = $(ev.page); // .find('.sc-boxwrapper');
+                animation = target.data('animation');
+                if (animation.indexOf('.') === -1) {
+                    clazzes = 'animated ' + animation;
+                    target.removeClass(clazzes).addClass(clazzes).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                        $(this).removeClass(clazzes);
+                    });
+                } else {
+                    target.velocity(animation);
+                }
+            }
+            // embedded
+            $(ev.page).find('div[sc-embedded]').each(function () {
+                var data, content;
+                data = $(this).data('embedded');
+                if (data.html) {
+                    content = data.html;
+                    $(this).find('div[sc-embedded-thumbnail]').replaceWith(content);
+
+                    if (window.location.protocol === 'file:') {
+                        // add protocol to embedded videos
+                        $('iframe[src^="//"]').attr('src', function(i, val) {
+                            return 'http:' + val;
+                        });
+                    }
+                } else {
+                }
+
+                if (false && data.html && data.html.length > 0) {
+                    $(this).find('div[sc-embedded-thumbnail]').replaceWith(data.html);
+                }
+            });
+        });
+        // fragmented
+        $('.sc-fragmented').each(function () {
+            $(this).find('.sc-box').children(':parent').each(function () {
+                if ($(this).find('br:only-child').length !== 1) {
+                    $(this).addClass('ft-fragment');
+                }
+            });
+            $(this).find('li').addClass('ft-fragment');
+        });
+        // update to reflect css changes
+        Flowtime.updateNavigation();
+        // centered
+        $('.sc-centered').each(function () {
+            $(this).find('.sc-type1 .box0').addClass('centered');
+        });
+        // contenteditable
+        $('[contenteditable]').attr('contenteditable', null);
+        // fullscreen
+        if (fullscreen) {
+            $('body').click(function () {
+                screenfull.request();
+            });
+            setTimeout(function () {
+                $('body').trigger('click');
+            }, 1000);
+        }
+        // leap motion
+        ( function () {
+            var timeout, detect;
+            timeout = 1000;
+            detect = true;
+            // handle leap events
+            Leap.loop({
+                enableGestures: true
+            }, function (frame) {
+                var g, xdiff, ydiff, zdiff, movements, m;
+                g = frame.gestures[0];
+                if (detect && g && g.state === 'stop') {
+                    switch (g.type) {
+                        case 'circle':
+                        // Flowtime.toggleOverview();
+                        case 'swipe':
+                            xdiff = g.direction[0];
+                            ydiff = g.direction[1];
+                            zdiff = g.direction[2];
+                            movements = [
+                                {
+                                    distance: Math.abs(xdiff),
+                                    coordinate: 'x',
+                                    type: (xdiff > 0) ? 'left' : 'right'
+                                },
+                                {
+                                    distance: Math.abs(ydiff),
+                                    coordinate: 'y',
+                                    type: (ydiff > 0) ? 'down' : 'up'
+                                },
+                                {
+                                    distance: Math.abs(zdiff),
+                                    coordinate: 'z',
+                                    type: (zdiff > 0) ? 'forward' : 'back'
+                                }
+                            ];
+                            // sort movements based on furthest distance
+                            movements.sort(function (a, b) {
+                                return a['distance'] < b['distance'];
+                            });
+                            m = movements[0];
+                            switch (m.type) {
+                                case 'left':
+                                    Flowtime.next();
+                                    break;
+                                case 'right':
+                                    Flowtime.prev();
+                                    break;
+                                case 'forward':
+                                case 'back':
+                                    Flowtime.toggleOverview();
+                                    break;
+                            }
+                        case 'screenTap':
+                            console.debug(g.position);
+                        default:
+                            detect = false;
+                            window.setTimeout(function () {
+                                detect = true;
+                            }, timeout);
+                    }
+                }
+            });
+        }());
+    }
+
+    /**
+     * Event handling
+     */
+    $(document).ready(calculateScale);
+    $(window).resize(calculateScale);
+</script>
+
+
+<script type="text/javascript">
+    startPresentation(true, false, 0, false, false);
+</script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    var _gauges = _gauges || [];
+    (function () {
+        var t = document.createElement('script');
+        t.type = 'text/javascript';
+        t.async = true;
+        t.id = 'gauges-tracker';
+        t.setAttribute('data-site-id', '517a9339f5a1f51030000008');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+    })();
+</script>
+</body>
+</html>
