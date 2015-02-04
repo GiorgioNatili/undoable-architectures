@@ -8,19 +8,49 @@ body {
 }
 
 .hero-unit {
-  margin: 50px auto 0 auto;
-  width: 300px;
+  width: 100%;
   font-size: 18px;
   font-weight: 200;
-  line-height: 30px;
   background-color: #eee;
   border-radius: 6px;
-  padding: 60px;
+  padding: 10px;
   h1 {
-    font-size: 60px;
+    font-size: 50px;
     line-height: 1;
     letter-spacing: -1px;
   }
+}
+
+.centered{
+
+  width: 100% ;
+  margin-left: auto ;
+  margin-right: auto ;
+  text-align: center;
+}
+
+#add-user{
+
+  height: 180px;
+  border: 1px solid gray;
+  margin: 4px;
+
+}
+#user-info{
+
+  height: 180px;
+  border: 1px solid gray;
+  margin: 4px;
+
+}
+
+#user-list{
+
+  width: 614px;
+  height: 200px;
+  border: 1px solid gray;
+  margin: 4px;
+
 }
 
 .browsehappy {
