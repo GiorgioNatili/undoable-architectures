@@ -30,10 +30,13 @@ angular.module('addUserWidget')
     success(function(data, status, headers, config) {
       // this callback will be called asynchronously
       // when the response is available
+      $scope.user = {};
+      $scope.message = 'User added correctly, ' + data.msg;
     }).
     error(function(data, status, headers, config) {
        // called asynchronously if an error occurs
        // or server returns response with an error status.
+      $scope.message = 'Something went wrong, ' + data.msg;
      });
   
   };
