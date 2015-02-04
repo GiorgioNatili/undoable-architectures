@@ -6,17 +6,18 @@
   <body ng-app="addUserWidget">
    
     <div id="addUser" ng-controller="AddUserCtrl">
+      <h2>Add User</h2>
       <fieldset>
-        <input id="inputUserName" type="text" placeholder="Username">
-        <input id="inputUserEmail" type="text" placeholder="Email">
+        <input id="inputUserName" type="text" ng-model="user.name" placeholder="Username">
+        <input id="inputUserEmail" type="text" ng-model="user.email" placeholder="Email">
         <br>
-        <input id="inputUserFullname" type="text" placeholder="Full Name">
-        <input id="inputUserAge" type="text" placeholder="Age">
+        <input id="inputUserFullname" type="text" ng-model="user.fullname" placeholder="Full Name">
+        <input id="inputUserAge" type="text" ng-model="user.age" placeholder="Age">
         <br>
-        <input id="inputUserLocation" type="text" placeholder="Location">
-        <input id="inputUserGender" type="text" placeholder="gender">
+        <input id="inputUserLocation" type="text" ng-model="user.location" placeholder="Location">
+        <input id="inputUserGender" type="text" ng-model="user.gender" placeholder="gender">
         <br>
-        <button id="btnAddUser">Add User</button>
+        <button id="btnAddUser" ng-click="addUser(user)">Add User</button>
       </fieldset>
     </div>
 
