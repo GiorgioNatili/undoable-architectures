@@ -23,6 +23,7 @@
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/lodash/dist/lodash.compat.js"></script>
         <script src="bower_components/backbone/backbone.js"></script>
+        <script src="../../bower_components/socket.io-client/socket.io.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
@@ -45,7 +46,7 @@
         <script id="userTemplate" type="text/template">
           <tr>
             <td>
-              <a href="#" class="linkshowuser" title="Show Details">
+              <a href="#" data-id="<%= _id %>" class="linkshowuser" title="Show Details">
                 <%= username %>
               </a>
             </td>
